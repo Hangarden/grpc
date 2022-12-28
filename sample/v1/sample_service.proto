@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+//package sample.v1;
+option go_package = "awesomeProject/";
+
+service SampleService {
+  rpc GetInfo(GetInfoInfoRequest) returns (GetInfoResponse) {}
+}
+
+message GetInfoInfoRequest{
+  string send_message = 1;
+}
+
+message GetInfoResponse{
+  string response_message = 1;
+}
