@@ -13,7 +13,7 @@ import (
 
 const (
 	HOST = "localhost"
-	PORT = 9000
+	PORT = 5000
 )
 
 type Server struct {
@@ -41,7 +41,9 @@ func (s *Server) GetInfo(ctx context.Context, req *sampleV1.GetInfoInfoRequest) 
 		fmt.Println("[Request] GetInfo Request Body:", requestBody)
 	}
 
-	responseData := &sampleV1.GetInfoResponse{}
+	responseData := &sampleV1.GetInfoResponse{
+		ResponseMessage: HOST,
+	}
 
 	return responseData, nil
 }
@@ -55,16 +57,6 @@ func main() {
 		log.Fatalf("failed to listen: %v", listenErr)
 	}
 
-	grpcServer := grpc.NewServer()
-
-	sampleService := Server{}
-	sampleService.RegisterService(grpcServer)
-
-	fmt.Printf("server listening at %v", lis.Addr())
-	if err := grpcServer.Serve(lis); err != nil {
-		log.Printf("failed to serve: %v", err)
-	}
-
 	/*defaultServer = grpc.NewServer(
 		grpc.UnaryInterceptor(grpc_middleware.ChainUnaryServer(
 			grpcMiddleware(),
@@ -76,14 +68,14 @@ func main() {
 		logger.Fatal().Msgf("failed to serve: %v", err)
 	}*/
 
+	grpcServer := grpc.NewServer()
+
+	sampleService := Server{}
 	sampleService.RegisterService(grpcServer)
 
 	fmt.Printf("server listening at %v", lis.Addr())
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Printf("failed to serve: %v", err)
 	}
-
-	//sample.RegisterSampleServiceServer(defaultServer, &Server{})
-	//RegisterService(defaultServer)
 
 }

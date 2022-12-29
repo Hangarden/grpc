@@ -4,13 +4,19 @@ syntax = "proto3";
 option go_package = "awesomeProject/";
 
 service SampleService {
-  rpc GetInfo(GetInfoInfoRequest) returns (GetInfoResponse) {}
+  rpc GetInfo(GetOkestroRequest) returns (GetOkestroResponse) {}
 }
 
-message GetInfoInfoRequest{
-  string send_message = 1;
+message OkestroMessage {
+  int32 id = 1;
+  string name = 2;
+  string residence = 3;
 }
 
-message GetInfoResponse{
-  string response_message = 1;
+message GetOkestroRequest {
+  int32 id = 1;
+}
+
+message GetOkestroResponse {
+  OkestroMessage oksetro_message = 1;
 }

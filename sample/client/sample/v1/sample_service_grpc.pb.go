@@ -22,7 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SampleServiceClient interface {
-	GetInfo(ctx context.Context, in *GetOkestroRequest, opts ...grpc.CallOption) (*GetOkestroResponse, error)
+	GetInfo(ctx context.Context, in *GetInfoInfoRequest, opts ...grpc.CallOption) (*GetInfoResponse, error)
 }
 
 type sampleServiceClient struct {
@@ -33,8 +33,8 @@ func NewSampleServiceClient(cc grpc.ClientConnInterface) SampleServiceClient {
 	return &sampleServiceClient{cc}
 }
 
-func (c *sampleServiceClient) GetInfo(ctx context.Context, in *GetOkestroRequest, opts ...grpc.CallOption) (*GetOkestroResponse, error) {
-	out := new(GetOkestroResponse)
+func (c *sampleServiceClient) GetInfo(ctx context.Context, in *GetInfoInfoRequest, opts ...grpc.CallOption) (*GetInfoResponse, error) {
+	out := new(GetInfoResponse)
 	err := c.cc.Invoke(ctx, "/SampleService/GetInfo", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -46,7 +46,7 @@ func (c *sampleServiceClient) GetInfo(ctx context.Context, in *GetOkestroRequest
 // All implementations must embed UnimplementedSampleServiceServer
 // for forward compatibility
 type SampleServiceServer interface {
-	GetInfo(context.Context, *GetOkestroRequest) (*GetOkestroResponse, error)
+	GetInfo(context.Context, *GetInfoInfoRequest) (*GetInfoResponse, error)
 	mustEmbedUnimplementedSampleServiceServer()
 }
 
@@ -54,7 +54,7 @@ type SampleServiceServer interface {
 type UnimplementedSampleServiceServer struct {
 }
 
-func (UnimplementedSampleServiceServer) GetInfo(context.Context, *GetOkestroRequest) (*GetOkestroResponse, error) {
+func (UnimplementedSampleServiceServer) GetInfo(context.Context, *GetInfoInfoRequest) (*GetInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetInfo not implemented")
 }
 func (UnimplementedSampleServiceServer) mustEmbedUnimplementedSampleServiceServer() {}
@@ -71,7 +71,7 @@ func RegisterSampleServiceServer(s grpc.ServiceRegistrar, srv SampleServiceServe
 }
 
 func _SampleService_GetInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetOkestroRequest)
+	in := new(GetInfoInfoRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -83,7 +83,7 @@ func _SampleService_GetInfo_Handler(srv interface{}, ctx context.Context, dec fu
 		FullMethod: "/SampleService/GetInfo",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SampleServiceServer).GetInfo(ctx, req.(*GetOkestroRequest))
+		return srv.(SampleServiceServer).GetInfo(ctx, req.(*GetInfoInfoRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
